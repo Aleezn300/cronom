@@ -48,9 +48,10 @@
         }
 
         .time-label {
-            color: #4caf50;
+            color: #4caf50; /* Verde original */
             font-size: 1.2rem;
             margin-top: 20px;
+            transition: color 0.3s ease;
         }
 
         .timer {
@@ -69,6 +70,24 @@
             display: block;
             font-size: 3rem;
             font-weight: bold;
+            color: #4caf50; /* Verde original */
+            transition: color 0.3s ease;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #4caf50; /* Verde original */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3e8e41; /* Verde mais escuro */
         }
     </style>
 </head>
@@ -82,7 +101,7 @@
 
     <div class="container">
         <h1>Criar 5 projetos em Javascript</h1>
-        <div class="time-label">TEMPO PARA COMPLETAR O OBJETIVO</div>
+        <div class="time-label" id="time-label">TEMPO PARA COMPLETAR O OBJETIVO</div>
         <div class="timer">
             <div>
                 <span id="days">0</span>
@@ -101,6 +120,7 @@
                 seg
             </div>
         </div>
+        <button onclick="changeColor()">Mudar Cor</button>
     </div>
 
     <script>
@@ -134,6 +154,23 @@
         // Inicia o cronômetro
         setInterval(updateTimer, 1000);
         updateTimer(); // Atualiza imediatamente
+
+        // Função para mudar a cor de todos os elementos de verde para azul
+        function changeColor() {
+            const elements = document.querySelectorAll('.time-label, .timer span, button');
+            elements.forEach(element => {
+                const currentColor = getComputedStyle(element).color;
+                const currentBg = getComputedStyle(element).backgroundColor;
+
+                // Verifica cores e alterna
+                if (currentColor === 'rgb(76, 175, 80)' || currentColor === '') {
+                    element.style.color = '#2196F3'; // Azul
+                }
+                if (currentBg === 'rgb(76, 175, 80)') {
+                    element.style.backgroundColor = '#2196F3'; // Azul
+                }
+            });
+        }
     </script>
 </body>
 </html>
