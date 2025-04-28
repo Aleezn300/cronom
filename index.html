@@ -28,12 +28,14 @@
             margin: 0 20px;
             padding: 10px 15px;
             border-radius: 5px;
-            background-color: #4caf50; /* Verde */
-            transition: background-color 0.3s ease;
+        }
+
+        nav a.active {
+            background-color: #4caf50;
         }
 
         nav a:hover {
-            background-color: #3e8e41; /* Verde mais escuro */
+            background-color: #575757;
         }
 
         .container {
@@ -46,9 +48,10 @@
         }
 
         .time-label {
-            color: #4caf50; /* Verde */
+            color: #4caf50;
             font-size: 1.2rem;
             margin-top: 20px;
+            transition: color 0.3s ease;
         }
 
         .timer {
@@ -67,21 +70,38 @@
             display: block;
             font-size: 3rem;
             font-weight: bold;
-            color: #4caf50; /* Verde */
+            color: #4caf50;
+            transition: color 0.3s ease;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1769aa;
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="#cursos-alura">Cursos na Alura</a>
-        <a href="#projetos-javascript">Criar projetos em Javascript</a>
-        <a href="#portfolio">Criar um portfólio</a>
-        <a href="#curriculo">Atualizar meu currículo</a>
+        <a href="#" class="active">Cursos na Alura</a>
+        <a href="#">Criar projetos em Javascript</a>
+        <a href="#">Criar um portfólio</a>
+        <a href="#">Atualizar meu currículo</a>
     </nav>
 
     <div class="container">
         <h1>Criar 5 projetos em Javascript</h1>
-        <div class="time-label">TEMPO PARA COMPLETAR O OBJETIVO</div>
+        <div class="time-label" id="time-label">TEMPO PARA COMPLETAR O OBJETIVO</div>
         <div class="timer">
             <div>
                 <span id="days">0</span>
@@ -100,17 +120,19 @@
                 seg
             </div>
         </div>
+        <button onclick="changeColor()">Mudar Cor</button>
     </div>
 
     <script>
-        // Configuração inicial do timer
-        const objetivoDate = new Date(); 
-        objetivoDate.setDate(objetivoDate.getDate() + 5); // Configurando o prazo de 5 dias
+        // Configuração inicial do prazo do cronômetro (5 dias a partir de agora)
+        const objetivoDate = new Date();
+        objetivoDate.setDate(objetivoDate.getDate() + 5); // Adiciona 5 dias ao dia atual
 
         function updateTimer() {
-            const now = new Date();
-            const diff = objetivoDate - now;
+            const now = new Date(); // Data atual
+            const diff = objetivoDate - now; // Diferença entre o prazo e a data atual
 
+            // Se o tempo terminar
             if (diff <= 0) {
                 document.getElementById('days').textContent = 0;
                 document.getElementById('hours').textContent = 0;
@@ -119,4 +141,39 @@
                 return;
             }
 
-            const days = Math.floor(diff / (1000 * 60 * 60
+            // Cálculo dos dias, horas, minutos e segundos restantes
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Atualiza os valores no HTML
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Atualiza o cronômetro a cada 1 segundo
+        setInterval(updateTimer, 1000);
+        updateTimer(); // Atualiza imediatamente ao carregar a página
+
+        // Função para mudar a cor de elementos verdes para azul
+        function changeColor() {
+            const elements = document.querySelectorAll('.time-label, .timer span, button');
+            elements.forEach(element => {
+                const currentColor = getComputedStyle(element).color;
+                const currentBg = getComputedStyle(element).backgroundColor;
+
+                // Verifica e altera as cores
+                if (currentColor === 'rgb(76, 175, 80)' || currentColor === '') {
+                    element.style.color = '#2196F3'; // Azul
+                }
+                if (currentBg === 'rgb(76, 175, 80)') {
+                    element.style.backgroundColor = '#2196F3'; // Azul
+                }
+            });
+        }
+    </script>
+</body>
+</html>
